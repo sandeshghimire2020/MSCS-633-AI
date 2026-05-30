@@ -39,5 +39,3 @@ from qr_generator import QRCodeGenerator
 gen = QRCodeGenerator()
 gen.generate_qr_code("https://github.com")
 ```
-
-Done!
