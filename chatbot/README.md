@@ -56,3 +56,6 @@ bash run_webui.sh
 
 Then open `http://127.0.0.1:8000/` in your browser.
 
+Discloser Some portions of this project were created with help from GitHub Copilot (AI-assisted code suggestions).
+
+
