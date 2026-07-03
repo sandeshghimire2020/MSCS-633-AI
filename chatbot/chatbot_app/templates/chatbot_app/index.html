@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Django Chatbot</title>
+  <style>
+    :root {
+      --bg: #f4efe8;
+      --panel: #fffdf8;
+      --ink: #1f2937;
+      --muted: #6b7280;
+      --user: #dbeafe;
+      --bot: #ecfdf5;
+      --border: #e5e7eb;
+      --shadow: 0 16px 36px rgba(31, 41, 55, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #fff8e7 0%, var(--bg) 45%, #f0f4ff 100%);
+      color: var(--ink);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .shell {
+      width: min(760px, 100%);
+      background: rgba(255, 253, 248, 0.94);
+      border: 1px solid rgba(229, 231, 235, 0.9);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 18px 20px 14px;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.75rem;
+      line-height: 1.1;
+    }
+
+    .chat {
+      padding: 12px 14px 6px;
+      min-height: 180px;
+      max-height: 42vh;
+      overflow: auto;
+      display: grid;
+      gap: 6px;
+    }
+
+    .row { display: flex; }
+    .row.user { justify-content: flex-end; }
+    .row.bot { justify-content: flex-start; }
+
+    .message {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      width: min(100%, 420px);
+    }
+
+    .row.user .message {
+      align-items: flex-end;
+    }
+
+    .row.bot .message {
+      align-items: flex-start;
+    }
+
+    .bubble {
+      width: 100%;
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      line-height: 1.22;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 0.9rem;
+    }
+
+    .user .bubble {
+      background: var(--user);
+      border-top-right-radius: 4px;
+    }
+
+    .bot .bubble {
+      background: var(--bot);
+      border-top-left-radius: 4px;
+    }
+
+    .label {
+      display: block;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .composer {
+      display: flex;
+      gap: 8px;
+      padding: 14px 16px 16px;
+      border-top: 1px solid var(--border);
+      background: rgba(255,255,255,0.55);
+    }
+
+    .composer input {
+      flex: 1;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font: inherit;
+      outline: none;
+      background: white;
+    }
+
+    .composer input:focus {
+      border-color: #1f6feb;
+      box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.12);
+    }
+
+    .composer button {
+      border: 0;
+      border-radius: 10px;
+      padding: 0 18px;
+      background: #1f6feb;
+      color: white;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    @media (max-width: 640px) {
+      .composer { flex-direction: column; }
+      .composer button { height: 44px; }
+      .message { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <h1>Django Chatbot</h1>
+    </section>
+
+    <section class="chat" aria-live="polite">
+      {% for message in history %}
+        <div class="row {{ message.role }}">
+          <div class="message">
+            <span class="label">{{ message.role }}</span>
+            <div class="bubble">{{ message.text }}</div>
+          </div>
+        </div>
+      {% endfor %}
+    </section>
+
+    <form class="composer" method="post">
+      {% csrf_token %}
+      <input type="text" name="message" placeholder="Type your message here" autocomplete="off" autofocus>
+      <button type="submit">Send</button>
+    </form>
+  </main>
+</body>
+</html>
