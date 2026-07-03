@@ -2,14 +2,11 @@ Python source code:
 - manage.py
 - chatbot_project/
 - chatbot_app/
-- run_chatbot.sh
 - run_webui.sh
 
 Manifest file:
 - requirements.txt
 
 GitHub repository URL:
-- https://github.com/<your-username>/<your-repository>
+- https://github.com/sandeshghimire2020/MSCS-633-AI/tree/main/chatbot
 
-Screenshot:
-- Add a screenshot of the chatbot running in the Word document.
